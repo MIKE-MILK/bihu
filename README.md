@@ -3,6 +3,7 @@ BIHU,红岩网校寒假考核
 关于APP
 ------
 ### 添加了一个splash页
+![image](https://github.com/MIKE-MILK/bihu/blob/master/gif/Video_20200216_102437_890.gif)
 ### 实现了登录、注册  
 ### 实现了提出问题
 ### 实现了收藏
