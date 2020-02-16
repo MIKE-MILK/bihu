@@ -31,4 +31,4 @@ BIHU,红岩网校寒假考核
  之前原本打算写的是风格日丽天气，大体上是已经完成了，但由于在Litepal上出现了问题，且一值无法解决，就转战到BIHU了，还好最后还是有了成果。感觉还是很累，由于考虑到自己要补考，所以在转战的时候还是很慌的（未通知延期开学），心里也一直很着急，不能静下心来。感觉还是很累。  
  其实感觉自己的代码写得很乱，很不规范，导致在后期改bug的时候很痛苦，不知道到底是怎么回事，乱糟糟的。且还没有打注释，后面听了一位学长的建议，才有了一点好转。下次一定规范代码。
  ## APk
- ![github]（https://github.com/MIKE-MILK/bihu/blob/master/app/release/app-release.apk)
+ [github]（https://github.com/MIKE-MILK/bihu/blob/master/app/release/app-release.apk)
