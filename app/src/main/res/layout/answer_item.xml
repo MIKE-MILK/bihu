@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/discuss_ll"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:id="@+id/discuss_avatar_im"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="20dp"
+            android:scaleType="centerCrop"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/discuss_name_tx"
+            android:layout_marginLeft="20dp"
+            android:gravity="center_vertical"
+            android:text="用户名为空"
+            android:textSize="20sp"/>
+    </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/discuss_neirong_tx"
+        android:layout_below="@id/discuss_ll"
+        android:layout_marginLeft="20dp"
+        android:text="评论内容"
+        android:textSize="20sp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/discuss_time_tx"
+        android:layout_below="@id/discuss_neirong_tx"
+        android:text="时间"
+        android:textSize="10sp"/>
+</RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="end"
+        android:layout_below="@id/discuss_time_tx"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/discuss_exciting"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginRight="30dp"
+            android:src="@mipmap/zan2" />
+
+        <ImageView
+            android:id="@+id/discuss_naive"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginRight="30dp"
+            android:src="@mipmap/cai" />
+    </LinearLayout>
+</LinearLayout>

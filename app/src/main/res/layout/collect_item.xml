@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".Activity.CollectActivity">
+<RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/collect_title"
+        android:text="标题为空"
+        android:textSize="30sp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@id/collect_title"
+        android:orientation="horizontal"
+        android:id="@+id/collect_ll">
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/collect_avatar"/>
+        <TextView
+            android:id="@+id/collect_name"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="用户名为空"
+            android:textSize="30sp"/>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/collect_content_tx"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="内容为空"
+        android:layout_below="@id/collect_ll"
+        android:textSize="20sp"/>
+
+    <ImageView
+        android:id="@+id/collect_content_im"
+        android:layout_width="400sp"
+        android:layout_height="300dp"
+        android:layout_below="@id/collect_content_tx"
+        android:layout_marginTop="1dp"
+        android:scaleType="center"
+        android:layout_centerInParent="true"/>
+</RelativeLayout>
+
+</LinearLayout>

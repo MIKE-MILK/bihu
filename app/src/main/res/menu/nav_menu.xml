@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<group android:checkableBehavior="single">
+    <item
+        android:id="@+id/nav_like"
+        android:icon="@drawable/like"
+        android:title="收藏"/>
+    <item
+        android:id="@+id/nav_settings"
+        android:icon="@drawable/settings"
+        android:title="提出问题"/>
+    <item
+        android:id="@+id/touxiang"
+        android:icon="@drawable/change"
+        android:title="更换头像"/>
+    <item
+        android:id="@+id/changepassword"
+        android:icon="@drawable/xiugaimima"
+        android:title="修改密码"/>
+    <item
+    android:id="@+id/nav_www"
+    android:icon="@drawable/gywm"
+    android:title="关于我们"/>
+    <item
+        android:id="@+id/esc"
+        android:icon="@drawable/tuichu"
+        android:title="退出登录"/>
+
+</group>
+</menu>
