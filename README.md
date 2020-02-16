@@ -18,3 +18,4 @@ BIHU,红岩网校寒假考核
 ### 实现了修改密码
 ![image](https://github.com/MIKE-MILK/bihu/blob/master/gif/Video_20200216_104920_305.gif)
 ### 实现了回答问题
+![image](https://github.com/MIKE-MILK/bihu/blob/master/gif/Video_20200216_104532_737.gif)
