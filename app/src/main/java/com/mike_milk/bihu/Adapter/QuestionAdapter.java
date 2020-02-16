@@ -24,7 +24,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 /*
-参考了一篇CSDN的博客https://blog.csdn.net/lin_dianwei/article/details/78687487
+参考了一篇CSDN的博客
  */
 
 public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHolder>implements View.OnClickListener {
