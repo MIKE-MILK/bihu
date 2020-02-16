@@ -19,3 +19,5 @@ BIHU,红岩网校寒假考核
 ![image](https://github.com/MIKE-MILK/bihu/blob/master/gif/Video_20200216_104920_305.gif)
 ### 实现了回答问题
 ![image](https://github.com/MIKE-MILK/bihu/blob/master/gif/Video_20200216_104532_737.gif)
+## 使用的技术  
+ * 项目1
