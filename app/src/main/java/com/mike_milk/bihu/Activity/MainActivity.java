@@ -218,12 +218,14 @@ public class MainActivity extends AppCompatActivity {
                                             }
                                         }
                                 }
+
                                 }
                             }catch (Exception e){
                                 e.printStackTrace();
                             }
                         }
                     });
+
                     try {
                         if ("false".equals(excitinglist.get(position).getString("is_exciting"))){
                             HttpConnectUtil.doAsyncPost("http://bihu.jay86.com/exciting.php", "id=" + excitinglist.get(position).getString("id")
@@ -295,6 +297,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
                     try {
+                        System.out.println("naivelist = " + naivelist);
                         if ("false".equals(naivelist.get(position).getString("is_naive"))){
                             HttpConnectUtil.doAsyncPost("http://bihu.jay86.com/naive.php","id="+naivelist.get(position).getString("id")
                                     + "&type=1&token="+user.getToken(), new HttpConnectUtil.CallBack() {
