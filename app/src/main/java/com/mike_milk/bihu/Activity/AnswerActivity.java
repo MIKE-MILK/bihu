@@ -65,6 +65,10 @@ public class AnswerActivity extends AppCompatActivity {
         setonClick();
     }
 
+    /*
+    获得数据并显示
+     */
+
     private void setData(){
         AnswerContentTx.setText(AnswerContent);
         AnswerTimeTx.setText("发布于"+AnswerTime);
@@ -73,6 +77,9 @@ public class AnswerActivity extends AppCompatActivity {
         SetImageViewUtil.setImageToImageView(AnswerAvatarim,AnswerAvatar);
         SetImageViewUtil.setImageToImageView(AnswerContentIm,AnswerImage);
     }
+    /*
+    进行实例化
+     */
 
     private void initview(){
         AnswerBack=findViewById(R.id.answer_back_tx);
@@ -87,14 +94,23 @@ public class AnswerActivity extends AppCompatActivity {
         AnswerRecyclerView=findViewById(R.id.answer_recyclerView);
     }
 
+/*
+对控件的监听事件
+ */
 
     public void setonClick(){
+        /*
+        返回的实现
+         */
         AnswerBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
+        /*
+        对回答问题的实现
+         */
 
         Answerbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,6 +135,9 @@ public class AnswerActivity extends AppCompatActivity {
             }
         });
     }
+    /*
+    适配器的网络请求
+     */
      private AnswerAdapter.OnItemClickListener Listener=new AnswerAdapter.OnItemClickListener() {
          @Override
          public void onItemClick(final View v, QuestionAdapter.ViewName viewName, final int position) {
@@ -295,8 +314,10 @@ public class AnswerActivity extends AppCompatActivity {
      };
 
     private void getData(){
-        mintent = getIntent();/*
+        mintent = getIntent();
+        /*
         put,get不一致出错
+        得到传入的数据
         */
         AnswerTitle=mintent.getStringExtra("questionTitleKey");
         AnswerAvatar=mintent.getStringExtra("questionAvatarKey");

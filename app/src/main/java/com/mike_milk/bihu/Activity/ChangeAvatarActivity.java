@@ -54,6 +54,9 @@ public class ChangeAvatarActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.changetouxiang);
+        /*
+        对控件的实例
+         */
         ChangeAvatarBack=findViewById(R.id.change_touxiang_back);
         ChangeAvatarpic=findViewById(R.id.change_touxiang_xuanze);
         ChangeAvatarButton=findViewById(R.id.change_btn);
@@ -62,6 +65,9 @@ public class ChangeAvatarActivity extends AppCompatActivity {
         LoginToken();
         setClick();
     }
+    /*
+    监听事件
+     */
     public void setClick(){
         ChangeAvatarBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,14 +86,22 @@ public class ChangeAvatarActivity extends AppCompatActivity {
             }
         });
 
+        /*
+        开启一个线程
+         */
         ChangeAvatarButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
+                        /*
+                        得到七牛的token
+                         */
                          getQiniuToken();
-
+                         /*
+                         七牛的储存
+                          */
                          Qiniuchucun();
                     }
                 }).start();
@@ -109,6 +123,9 @@ public class ChangeAvatarActivity extends AppCompatActivity {
     }
 
     public void getQiniuToken(){
+        /*
+        GitHub上找到的获取七牛token的方法
+         */
         Url="http://zzzia.net:8080/qiniu/";
         param="accessKey=pU2KcxHPPFM3VEtlvi7u5GoXM9nkCeWVaUzFY7c7"+
                 "&secretKey=j-6q6Q9Si9gda41dnI5rbXox2SrKT6MwGQEGE24X"+"&bucket=zuoyebihu";
@@ -130,6 +147,9 @@ public class ChangeAvatarActivity extends AppCompatActivity {
     }
 
     private void Qiniuchucun(){
+        /*
+        对图片的储存
+         */
         Configuration configuration= new Configuration.Builder()
                 .chunkSize(512 * 1024)
                 .putThreshhold(1024 * 1024)
@@ -194,7 +214,7 @@ public class ChangeAvatarActivity extends AppCompatActivity {
         }
 
 /*
-服务器设置为private，错误
+服务器设置为private，错误 储存图片并返回图片的uri
  */
     private String getPath(Uri uri) {
         String[] projection = {MediaStore.Video.Media.DATA};

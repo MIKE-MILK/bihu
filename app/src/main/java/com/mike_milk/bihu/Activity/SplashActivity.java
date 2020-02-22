@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.mike_milk.bihu.R;
 
 public class SplashActivity extends AppCompatActivity {
-    private View ivBacground;
+    private View ivBackground;
     private AlphaAnimation alphaAnimation;
 
     @Override
@@ -21,6 +21,9 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         initview();
+        /*
+        初始化动画
+         */
         initAnimation();
         initListen();
     }
@@ -30,7 +33,9 @@ public class SplashActivity extends AppCompatActivity {
             public void onAnimationStart(Animation animation) {
 
             }
-
+/*
+动画完成跳转至登录界面
+ */
             @Override
             public void onAnimationEnd(Animation animation) {
                 Intent intent=new Intent(SplashActivity.this,LoginActivity.class);
@@ -44,13 +49,17 @@ public class SplashActivity extends AppCompatActivity {
             }
         });
     }
+    /*
+    实现从无到有的动画
+     */
     private void initAnimation(){
         alphaAnimation=new AlphaAnimation(0f,1f);
         alphaAnimation.setDuration(3000);
-        ivBacground.setAnimation(alphaAnimation);
+        ivBackground.setAnimation(alphaAnimation);
     }
+
     private void initview(){
         setContentView(R.layout.splashlayout);
-        ivBacground=findViewById(R.id.spash_backgroud);
+        ivBackground=findViewById(R.id.spash_backgroud);
     }
 }

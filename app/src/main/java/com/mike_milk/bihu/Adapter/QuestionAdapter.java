@@ -184,6 +184,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
             switch (v.getId()) {
                 case R.id.rv_question:
                     onItemClickListener.onClick(v,ViewName.PRACTISE,position);
+                    break;
                 default:
                     onItemClickListener.onClick(v, ViewName.ITEM, position);
                     break;

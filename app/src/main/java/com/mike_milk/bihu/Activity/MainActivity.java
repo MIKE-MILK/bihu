@@ -371,7 +371,8 @@ public class MainActivity extends AppCompatActivity {
                                 public void onResponse(String response) {
                                     try {
                                         JSONObject object=new JSONObject(response);
-                                        if ("200".equals(object.getString("status"))){
+                                        if ("200".equals(object.getString("status"))
+                                        ){
                                             Toast.makeText(MainActivity.this,"收藏成功",Toast.LENGTH_SHORT).show();
                                             View view1=questionRecyclerView.getLayoutManager().findViewByPosition(position);
                                             ImageView imageView=view1.findViewById(R.id.question_answer_favorite);

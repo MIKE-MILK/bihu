@@ -100,7 +100,6 @@ public class RegisterActivity extends AppCompatActivity {
         Acccount=this.findViewById(R.id.register_account);
         Password=this.findViewById(R.id.register_password);
         RegisterBtn=this.findViewById(R.id.btn_register);
-        Back.setImageResource(R.mipmap.back);
     }
 
     public void back(View view){
