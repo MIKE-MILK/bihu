@@ -26,11 +26,13 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 
 import com.google.android.material.navigation.NavigationView;
+
 import com.mike_milk.bihu.Adapter.QuestionAdapter;
 import com.mike_milk.bihu.R;
 import com.mike_milk.bihu.db.User;
 import com.mike_milk.bihu.util.HttpConnectUtil;
 import com.mike_milk.bihu.util.PermisionUtils;
+import com.mike_milk.bihu.util.ScaleAnimatorUtils;
 import com.mike_milk.bihu.util.SetImageViewUtil;
 
 import org.json.JSONArray;
@@ -39,6 +41,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
@@ -79,6 +83,14 @@ public class MainActivity extends AppCompatActivity {
     private QuestionAdapter adapter;
     private NavigationView navigationView;
 
+    @BindView(R.id.question_answer_zan)
+    ImageView question_answer_zan;
+    @BindView(R.id.question_answer_cai)
+    ImageView question_answer_cai;
+    @BindView(R.id.question_answer_favorite)
+    ImageView question_answer_favorite;
+    @BindView(R.id.question_answer_pinglun)
+    ImageView question_answer_pinglun;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,8 +103,12 @@ public class MainActivity extends AppCompatActivity {
         touxiang();
         //检测读写权限
         PermisionUtils.verifyStoragePermissions(this);
+        //ButterKnife.bind(this);
+        initEventListener();
+        initData();
 
     }
+    private void initData() {}
 
 
     private void getquestionlist(){
@@ -159,6 +175,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void view(){
+        //question_answer_zan.setSelected(false);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -172,6 +189,7 @@ public class MainActivity extends AppCompatActivity {
         tiwen = navView.getMenu().findItem(R.id.nav_settings);
         questionRecyclerView=findViewById(R.id.rv_question);
         swipeRefreshLayout=findViewById(R.id.gengxin_qestion);
+
         ActionBar actionBar = getSupportActionBar();
 
         if (actionBar != null) {
@@ -194,18 +212,20 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void initEventListener(){
+        //question_answer_zan.setOnClickListener(this);
+    }
 
     private QuestionAdapter.OnItemClickListener onItemClickListener=new QuestionAdapter.OnItemClickListener() {
         @Override
         public void onClick( View v, QuestionAdapter.ViewName viewName, final int position) {
             switch(v.getId()){
                 case R.id.question_answer_zan:
-                    HttpConnectUtil.doAsyncPost(Url, param, new HttpConnectUtil.CallBack() {
+                   HttpConnectUtil.doAsyncPost(Url, param, new HttpConnectUtil.CallBack() {
                         @Override
                         public void onResponse(String response) {
                             try {
                                 JSONObject object = new JSONObject(response);
-                                Log.d("dainzan","问题列表为"+response);
                                 if ("200".equals(object.getString("status"))){
                                     JSONObject object1=object.getJSONObject("data");
                                     jsonArray=object1.getJSONArray("questions");
@@ -218,60 +238,81 @@ public class MainActivity extends AppCompatActivity {
                                             }
                                         }
                                 }
-
+                                    /*if (question_answer_zan.isSelected() == "false".equals(excitinglist.get(position).getString("is_exciting"))){
+                                        HttpConnectUtil.doAsyncPost("http://bihu.jay86.com/exciting.php", "id=" + excitinglist.get(position).getString("id")
+                                                + "&type=1&token=" + user.getToken(), new HttpConnectUtil.CallBack() {
+                                            @Override
+                                            public void onResponse(String response) {
+                                                try {
+                                                    JSONObject object=new JSONObject(response);
+                                                    if("200".equals(object.getString("status"))){
+                                                        question_answer_zan.setImageResource(R.mipmap.zan2);
+                                                        question_answer_zan.setSelected(true);
+                                                        ScaleAnimatorUtils.setScale(question_answer_zan);
+                                                        Toast.makeText(MainActivity.this,"点赞成功",Toast.LENGTH_SHORT).show();
+                                                    }else {
+                                                        question_answer_zan.setImageResource(R.mipmap.zanzanzan);
+                                                        question_answer_zan.setSelected(false);
+                                                        ScaleAnimatorUtils.setScale(question_answer_zan);
+                                                        Toast.makeText(MainActivity.this,"取消点赞",Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }catch (Exception e){
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        });
+                                    }*/
+                                    try {
+                                        if ("false".equals(excitinglist.get(position).getString("is_exciting"))){
+                                            HttpConnectUtil.doAsyncPost("http://bihu.jay86.com/exciting.php", "id=" + excitinglist.get(position).getString("id")
+                                                    + "&type=1&token=" + user.getToken(), new HttpConnectUtil.CallBack() {
+                                                @Override
+                                                public void onResponse(String response) {
+                                                    try {
+                                                        JSONObject object=new JSONObject(response);
+                                                        if("200".equals(object.getString("status"))){
+                                                            Toast.makeText(MainActivity.this,"点赞成功",Toast.LENGTH_SHORT).show();
+                                                            View view=questionRecyclerView.getLayoutManager().findViewByPosition(position);
+                                                            ImageView imageView=view.findViewById(R.id.question_answer_zan);
+                                                            imageView.setImageResource(R.mipmap.zan2);
+                                                        }else {
+                                                            Toast.makeText(MainActivity.this,object.getString("info"),Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    }catch (Exception e){
+                                                        e.printStackTrace();
+                                                    }
+                                                }
+                                            });
+                                        }else if ("true".equals(excitinglist.get(position).getString("is_exciting"))){
+                                            HttpConnectUtil.doAsyncPost("http://bihu.jay86.com/cancelExciting.php", "id=" + excitinglist.get(position).getString("id")
+                                                    + "&type=1&token=" + user.getToken(), new HttpConnectUtil.CallBack() {
+                                                @Override
+                                                public void onResponse(String response) {
+                                                    try {
+                                                        JSONObject object=new JSONObject(response);
+                                                        if ("200".equals(object.getString("status"))){
+                                                            Toast.makeText(MainActivity.this,"取消赞成功",Toast.LENGTH_SHORT).show();
+                                                            View view=questionRecyclerView.getLayoutManager().findViewByPosition(position);
+                                                            ImageView imageView=view.findViewById(R.id.question_answer_zan);
+                                                            imageView.setImageResource(R.mipmap.zanzanzan);
+                                                        }else {
+                                                            Toast.makeText(MainActivity.this,object.getString("info"),Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    }catch (Exception e){
+                                                        e.printStackTrace();
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    }catch (Exception e){
+                                        e.printStackTrace();
+                                    }
                                 }
                             }catch (Exception e){
                                 e.printStackTrace();
                             }
                         }
                     });
-
-                    try {
-                        if ("false".equals(excitinglist.get(position).getString("is_exciting"))){
-                            HttpConnectUtil.doAsyncPost("http://bihu.jay86.com/exciting.php", "id=" + excitinglist.get(position).getString("id")
-                                    + "&type=1&token=" + user.getToken(), new HttpConnectUtil.CallBack() {
-                                @Override
-                                public void onResponse(String response) {
-                                    try {
-                                        JSONObject object=new JSONObject(response);
-                                        if("200".equals(object.getString("status"))){
-                                            Toast.makeText(MainActivity.this,"点赞成功",Toast.LENGTH_SHORT).show();
-                                            View view=questionRecyclerView.getLayoutManager().findViewByPosition(position);
-                                            ImageView imageView=view.findViewById(R.id.question_answer_zan);
-                                            imageView.setImageResource(R.mipmap.zan2);
-                                        }else {
-                                            Toast.makeText(MainActivity.this,object.getString("info"),Toast.LENGTH_SHORT).show();
-                                        }
-                                    }catch (Exception e){
-                                        e.printStackTrace();
-                                    }
-                                }
-                            });
-                        }else if ("true".equals(excitinglist.get(position).getString("is_exciting"))){
-                            HttpConnectUtil.doAsyncPost("http://bihu.jay86.com/cancelExciting.php", "id=" + excitinglist.get(position).getString("id")
-                                    + "&type=1&token=" + user.getToken(), new HttpConnectUtil.CallBack() {
-                                @Override
-                                public void onResponse(String response) {
-                                    try {
-                                        JSONObject object=new JSONObject(response);
-                                        if ("200".equals(object.getString("status"))){
-                                            Toast.makeText(MainActivity.this,"取消赞成功",Toast.LENGTH_SHORT).show();
-                                            View view=questionRecyclerView.getLayoutManager().findViewByPosition(position);
-                                            ImageView imageView=view.findViewById(R.id.question_answer_zan);
-                                            imageView.setImageResource(R.mipmap.zanzanzan);
-                                        }else {
-                                            Toast.makeText(MainActivity.this,object.getString("info"),Toast.LENGTH_SHORT).show();
-                                        }
-                                    }catch (Exception e){
-                                        e.printStackTrace();
-                                    }
-                                }
-                            });
-                        }
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
-
                 case R.id.question_answer_cai:
                     HttpConnectUtil.doAsyncPost(Url, param, new HttpConnectUtil.CallBack() {
                         @Override
@@ -290,58 +331,58 @@ public class MainActivity extends AppCompatActivity {
                                      }
                                  }
                              }
+                             try {
+                                 System.out.println("naivelist = " + naivelist);
+                                 if ("false".equals(naivelist.get(position).getString("is_naive"))){
+                                     HttpConnectUtil.doAsyncPost("http://bihu.jay86.com/naive.php","id="+naivelist.get(position).getString("id")
+                                             + "&type=1&token="+user.getToken(), new HttpConnectUtil.CallBack() {
+                                         @Override
+                                         public void onResponse(String response) {
+                                             try {
+                                                 JSONObject object=new JSONObject(response);
+                                                 if ("200".equals(object.getString("status"))){
+                                                     Toast.makeText(MainActivity.this,"踩成功",Toast.LENGTH_SHORT).show();
+                                                     View view=questionRecyclerView.getLayoutManager().findViewByPosition(position);
+                                                     ImageView imageView=view.findViewById(R.id.question_answer_cai);
+                                                     imageView.setImageResource(R.mipmap.cc);
+                                                 }else {
+                                                     Toast.makeText(MainActivity.this,object.getString("info"),Toast.LENGTH_SHORT).show();
+                                                 }
+                                             }catch (Exception e){
+                                                 e.printStackTrace();
+                                             }
+                                         }
+                                     });
+                                 }else if ("true".equals(naivelist.get(position).getString("is_naive"))){
+                                     HttpConnectUtil.doAsyncPost("http://bihu.jay86.com/cancelNaive.php", "id=" + naivelist.get(position).getString("id")
+                                             + "&type=1&token=" + user.getToken(), new HttpConnectUtil.CallBack() {
+                                         @Override
+                                         public void onResponse(String response) {
+                                             try {
+                                                 JSONObject object=new JSONObject(response);
+                                                 if ("200".equals(object.getString("status"))){
+                                                     Toast.makeText(MainActivity.this,"取消踩成功",Toast.LENGTH_SHORT).show();
+                                                     View view=questionRecyclerView.getLayoutManager().findViewByPosition(position);
+                                                     ImageView imageView=view.findViewById(R.id.question_answer_cai);
+                                                     imageView.setImageResource(R.mipmap.ccc);
+                                                 }else {
+                                                     Toast.makeText(MainActivity.this,object.getString("info"),Toast.LENGTH_SHORT).show();
+                                                 }
+                                             }catch (Exception e){
+                                                 e.printStackTrace();
+                                             }
+                                         }
+                                     });
+                                 }
+                             }catch (Exception e){
+                                 e.printStackTrace();
+                             }
                          }
                      }catch (Exception e){
                          e.printStackTrace();
                      }
                         }
                     });
-                    try {
-                        System.out.println("naivelist = " + naivelist);
-                        if ("false".equals(naivelist.get(position).getString("is_naive"))){
-                            HttpConnectUtil.doAsyncPost("http://bihu.jay86.com/naive.php","id="+naivelist.get(position).getString("id")
-                                    + "&type=1&token="+user.getToken(), new HttpConnectUtil.CallBack() {
-                                @Override
-                                public void onResponse(String response) {
-                                    try {
-                                        JSONObject object=new JSONObject(response);
-                                        if ("200".equals(object.getString("status"))){
-                                            Toast.makeText(MainActivity.this,"踩成功",Toast.LENGTH_SHORT).show();
-                                            View view=questionRecyclerView.getLayoutManager().findViewByPosition(position);
-                                            ImageView imageView=view.findViewById(R.id.question_answer_cai);
-                                            imageView.setImageResource(R.mipmap.cc);
-                                        }else {
-                                            Toast.makeText(MainActivity.this,object.getString("info"),Toast.LENGTH_SHORT).show();
-                                        }
-                                    }catch (Exception e){
-                                        e.printStackTrace();
-                                    }
-                                }
-                            });
-                        }else if ("true".equals(naivelist.get(position).getString("is_naive"))){
-                            HttpConnectUtil.doAsyncPost("http://bihu.jay86.com/cancelNaive.php", "id=" + naivelist.get(position).getString("id")
-                                    + "&type=1&token=" + user.getToken(), new HttpConnectUtil.CallBack() {
-                                @Override
-                                public void onResponse(String response) {
-                                    try {
-                                        JSONObject object=new JSONObject(response);
-                                        if ("200".equals(object.getString("status"))){
-                                            Toast.makeText(MainActivity.this,"取消踩成功",Toast.LENGTH_SHORT).show();
-                                            View view=questionRecyclerView.getLayoutManager().findViewByPosition(position);
-                                            ImageView imageView=view.findViewById(R.id.question_answer_cai);
-                                            imageView.setImageResource(R.mipmap.ccc);
-                                        }else {
-                                            Toast.makeText(MainActivity.this,object.getString("info"),Toast.LENGTH_SHORT).show();
-                                        }
-                                    }catch (Exception e){
-                                        e.printStackTrace();
-                                    }
-                                }
-                            });
-                        }
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
                 case R.id.question_answer_favorite:
                     HttpConnectUtil.doAsyncPost(Url, param, new HttpConnectUtil.CallBack() {
                         @Override
@@ -360,58 +401,59 @@ public class MainActivity extends AppCompatActivity {
                                             }
                                         }
                                     }
+                                    try {
+                                        if ("false".equals(collectlist.get(position).getString("is_favorite"))){
+                                            HttpConnectUtil.doAsyncPost("http://bihu.jay86.com/favorite.php", "qid=" + collectlist.get(position).getString("id")
+                                                    + "&token=" + user.getToken(), new HttpConnectUtil.CallBack() {
+                                                @Override
+                                                public void onResponse(String response) {
+                                                    try {
+                                                        JSONObject object=new JSONObject(response);
+                                                        if ("200".equals(object.getString("status"))
+                                                        ){
+                                                            Toast.makeText(MainActivity.this,"收藏成功",Toast.LENGTH_SHORT).show();
+                                                            View view1=questionRecyclerView.getLayoutManager().findViewByPosition(position);
+                                                            ImageView imageView=view1.findViewById(R.id.question_answer_favorite);
+                                                            imageView.setImageResource(R.mipmap.love);
+                                                        }else {
+                                                            Toast.makeText(MainActivity.this,object.getString("info"),Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    }catch (Exception e){
+                                                        e.printStackTrace();
+                                                    }
+                                                }
+                                            });
+                                        }else if ("true".equals(collectlist.get(position).getString("is_favorite"))){
+                                            HttpConnectUtil.doAsyncPost("http://bihu.jay86.com/cancelFavorite.php", "qid=" + collectlist.get(position).getString("id")
+                                                    + "&token=" + user.getToken(), new HttpConnectUtil.CallBack() {
+                                                @Override
+                                                public void onResponse(String response) {
+                                                    try {
+                                                        JSONObject object=new JSONObject(response);
+                                                        if ("200".equals(object.getString("status"))){
+                                                            Toast.makeText(MainActivity.this,"取消收藏成功",Toast.LENGTH_SHORT).show();
+                                                            View view=questionRecyclerView.getLayoutManager().findViewByPosition(position);
+                                                            ImageView imageView=view.findViewById(R.id.question_answer_favorite);
+                                                            imageView.setImageResource(R.mipmap.xihuan);
+                                                        }else {
+                                                            Toast.makeText(MainActivity.this,object.getString("info"),Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    }catch (Exception e){
+                                                        e.printStackTrace();
+                                                    }
+                                                }
+                                            });
+                                        }
+                                    }catch (Exception e){
+                                        e.printStackTrace();
+                                    }
                                 }
                             }catch (Exception e){
                                 e.printStackTrace();
                             }
                         }
                     });
-                    try {
-                        if ("false".equals(collectlist.get(position).getString("is_favorite"))){
-                            HttpConnectUtil.doAsyncPost("http://bihu.jay86.com/favorite.php", "qid=" + collectlist.get(position).getString("id")
-                                    + "&token=" + user.getToken(), new HttpConnectUtil.CallBack() {
-                                @Override
-                                public void onResponse(String response) {
-                                    try {
-                                        JSONObject object=new JSONObject(response);
-                                        if ("200".equals(object.getString("status"))
-                                        ){
-                                            Toast.makeText(MainActivity.this,"收藏成功",Toast.LENGTH_SHORT).show();
-                                            View view1=questionRecyclerView.getLayoutManager().findViewByPosition(position);
-                                            ImageView imageView=view1.findViewById(R.id.question_answer_favorite);
-                                            imageView.setImageResource(R.mipmap.love);
-                                        }else {
-                                            Toast.makeText(MainActivity.this,object.getString("info"),Toast.LENGTH_SHORT).show();
-                                        }
-                                    }catch (Exception e){
-                                        e.printStackTrace();
-                                    }
-                                }
-                            });
-                        }else if ("true".equals(collectlist.get(position).getString("is_favorite"))){
-                            HttpConnectUtil.doAsyncPost("http://bihu.jay86.com/cancelFavorite.php", "qid=" + collectlist.get(position).getString("id")
-                                    + "&token=" + user.getToken(), new HttpConnectUtil.CallBack() {
-                                @Override
-                                public void onResponse(String response) {
-                                    try {
-                                        JSONObject object=new JSONObject(response);
-                                        if ("200".equals(object.getString("status"))){
-                                            Toast.makeText(MainActivity.this,"取消收藏成功",Toast.LENGTH_SHORT).show();
-                                            View view=questionRecyclerView.getLayoutManager().findViewByPosition(position);
-                                            ImageView imageView=view.findViewById(R.id.question_answer_favorite);
-                                            imageView.setImageResource(R.mipmap.xihuan);
-                                        }else {
-                                            Toast.makeText(MainActivity.this,object.getString("info"),Toast.LENGTH_SHORT).show();
-                                        }
-                                    }catch (Exception e){
-                                        e.printStackTrace();
-                                    }
-                                }
-                            });
-                        }
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
+
                 case R.id.question_answer_pinglun:
 
                             try {

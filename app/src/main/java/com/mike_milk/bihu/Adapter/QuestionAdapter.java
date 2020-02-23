@@ -94,7 +94,7 @@ public class QuestionAdapter extends RecyclerView.Adapter<QuestionAdapter.ViewHo
                 FavoriteStatus=object.getString("is_favorite");
                 authortx.setText(AuthorName);
                 contenttx.setText(Content);
-                timetx.setText(Date+"时发布");
+                timetx.setText("于"+Date+"发布");
                 title.setText(Title);
                 Picasso.with(itemView.getContext()).load(Avatar).into(avatarim);
                 Picasso.with(itemView.getContext()).load(images).into(imgeim);
